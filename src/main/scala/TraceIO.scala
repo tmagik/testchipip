@@ -98,8 +98,9 @@ trait CanHaveTraceIOModuleImp extends LazyModuleImp {
   val traceIO = p(TracePortKey) map ( traceParams => {
     val tio = IO(Output(TraceOutputTop(outer.traceNexus.in.map(_._1))))
     (tio.traces zip outer.traceNexus.in).foreach({ case (port, (tileTrace, _)) =>
+      /* FIXME is this okay
       port.clock := tileTrace.head.clock
-      port.reset := tileTrace.head.reset
+      port.reset := tileTrace.head.reset */
       port.insns := DeclockedTracedInstruction.fromVec(tileTrace)
     })
 
